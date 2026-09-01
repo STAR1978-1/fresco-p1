@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DespensaRouteImport } from './routes/despensa'
+import { Route as PlanesRouteImport } from './routes/planes'
+import { Route as RecetasRouteImport } from './routes/recetas'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DespensaRoute = DespensaRouteImport.update({
+  id: '/despensa',
+  path: '/despensa',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlanesRoute = PlanesRouteImport.update({
+  id: '/planes',
+  path: '/planes',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RecetasRoute = RecetasRouteImport.update({
+  id: '/recetas',
+  path: '/recetas',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/despensa': typeof DespensaRoute
+  '/planes': typeof PlanesRoute
+  '/recetas': typeof RecetasRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/despensa': typeof DespensaRoute
+  '/planes': typeof PlanesRoute
+  '/recetas': typeof RecetasRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/despensa': typeof DespensaRoute
+  '/planes': typeof PlanesRoute
+  '/recetas': typeof RecetasRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/despensa' | '/planes' | '/recetas'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/despensa' | '/planes' | '/recetas'
+  id: '__root__' | '/' | '/despensa' | '/planes' | '/recetas'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DespensaRoute: typeof DespensaRoute
+  PlanesRoute: typeof PlanesRoute
+  RecetasRoute: typeof RecetasRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/despensa': {
+      id: '/despensa'
+      path: '/despensa'
+      fullPath: '/despensa'
+      preLoaderRoute: typeof DespensaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/planes': {
+      id: '/planes'
+      path: '/planes'
+      fullPath: '/planes'
+      preLoaderRoute: typeof PlanesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recetas': {
+      id: '/recetas'
+      path: '/recetas'
+      fullPath: '/recetas'
+      preLoaderRoute: typeof RecetasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DespensaRoute: DespensaRoute,
+  PlanesRoute: PlanesRoute,
+  RecetasRoute: RecetasRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
