@@ -39,11 +39,22 @@ export const Route = createFileRoute("/recetas")({
 function Recetas() {
   const [items, setItems] = useState<PantryItem[]>([]);
   const [recipes, setRecipes] = useState<GeneratedRecipe[]>([]);
+  const [reviews, setReviews] = useState<RecipeReview[]>([]);
   const generate = useServerFn(generateRecipes);
 
   useEffect(() => {
     setItems(loadPantry());
+    setReviews(loadReviews());
   }, []);
+
+  const addReview = (review: RecipeReview) => {
+    setReviews((prev) => {
+      const next = [review, ...prev];
+      saveReviews(next);
+      return next;
+    });
+  };
+
 
   const mutation = useMutation({
     mutationFn: async (pantry: PantryItem[]) =>
