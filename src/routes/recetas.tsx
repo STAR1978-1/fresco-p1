@@ -4,9 +4,18 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { RecipeReviews, ReviewSummary } from "@/components/recipe-reviews";
 import { SiteFooter, SiteHeader, UrgencyBadge } from "@/components/site-chrome";
 import { daysUntil, loadPantry, sortByUrgency, type PantryItem } from "@/lib/pantry";
 import { generateRecipes, type GeneratedRecipe } from "@/lib/recipes.functions";
+import {
+  effortLabel,
+  loadReviews,
+  saveReviews,
+  timeLabel,
+  type RecipeReview,
+} from "@/lib/reviews";
+
 
 export const Route = createFileRoute("/recetas")({
   head: () => ({
