@@ -197,8 +197,10 @@ function Recetas() {
                   </div>
                   <RecipeReviews title={r.title} reviews={reviews} onAdd={addReview} />
                 </article>
-
+              ))}
+            </div>
           )}
+
         </div>
       </section>
 
