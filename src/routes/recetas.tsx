@@ -141,12 +141,20 @@ function Recetas() {
                   style={{ animationDelay: `${i * 60}ms` }}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-mono text-xs text-mist">
-                      {Math.round(r.match)}% · {r.minutes} min
-                    </span>
+                    <span className="font-mono text-xs text-mist">{Math.round(r.match)}% match</span>
                     <UrgencyBadge urgency={r.urgency} />
                   </div>
                   <h2 className="mt-4 text-xl font-bold tracking-tight">{r.title}</h2>
+                  <div className="mt-3 flex flex-wrap items-center gap-2">
+                    <span className="rounded-full bg-cold/10 px-2.5 py-1 font-mono text-[11px] font-semibold text-cold">
+                      ⏱ {timeLabel(r.minutes)}
+                    </span>
+                    <span className="rounded-full bg-frost px-2.5 py-1 font-mono text-[11px] text-mist">
+                      {effortLabel(r.minutes)}
+                    </span>
+                    <ReviewSummary reviews={reviews} title={r.title} />
+                  </div>
+
                   <div className="mt-3 flex flex-wrap gap-1.5">
                     {r.usedIngredients.map((ing) => (
                       <span
