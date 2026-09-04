@@ -98,8 +98,9 @@
   --mist: oklch(0.582 0.048 238);
   --glow: oklch(0.812 0.098 216);
   --cold: oklch(0.688 0.106 236);
-  --warn: oklch(0.788 0.118 52);
-  --fresh: oklch(0.762 0.086 168);
+  --warn: oklch(0.652 0.142 46);
+  --fresh: oklch(0.598 0.096 176);
+
   --surface: oklch(0.99 0.014 220);
 
 
