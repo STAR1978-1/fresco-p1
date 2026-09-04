@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { InstallAppButton } from "./install-app";
 
 const navItems = [
   { to: "/despensa", label: "Despensa" },
