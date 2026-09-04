@@ -56,6 +56,8 @@ export function SiteFooter() {
             </Link>
           ))}
         </div>
+        <InstallAppButton />
+
       </div>
     </footer>
   );
