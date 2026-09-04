@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { InstallAppButton } from "./install-app";
 
 const navItems = [
   { to: "/despensa", label: "Despensa" },
@@ -26,12 +27,15 @@ export function SiteHeader() {
             </Link>
           ))}
         </div>
-        <Link
-          to="/despensa"
-          className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-ice ring-1 ring-black/5 transition-colors hover:bg-ink/90"
-        >
-          Ingresar alimentos
-        </Link>
+        <div className="flex items-center gap-2">
+          <InstallAppButton className="hidden sm:inline-flex" />
+          <Link
+            to="/despensa"
+            className="rounded-full bg-ink px-4 py-2 text-sm font-medium text-ice ring-1 ring-black/5 transition-colors hover:bg-ink/90"
+          >
+            Ingresar alimentos
+          </Link>
+        </div>
       </div>
     </nav>
   );
@@ -52,6 +56,8 @@ export function SiteFooter() {
             </Link>
           ))}
         </div>
+        <InstallAppButton />
+
       </div>
     </footer>
   );
