@@ -1,7 +1,7 @@
 const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
+// Se utiliza el modelo oficial gemini-1.5-flash
+const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-// Convierte la imagen cargada a base64
 const fileToBase64 = (file: File): Promise<string> => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -20,7 +20,6 @@ export interface ScannedFood {
   quantity: string;
 }
 
-// 1. Escanear alimento mediante visión de IA
 export async function analyzeFoodImage(file: File): Promise<ScannedFood> {
   const base64Data = await fileToBase64(file);
 
@@ -49,6 +48,11 @@ export async function analyzeFoodImage(file: File): Promise<ScannedFood> {
   });
 
   const data = await response.json();
+
+  if (!response.ok || !data.candidates) {
+    throw new Error(data.error?.message || "Respuesta inválida de la API de Gemini");
+  }
+
   const jsonText = data.candidates[0].content.parts[0].text;
   return JSON.parse(jsonText) as ScannedFood;
 }
