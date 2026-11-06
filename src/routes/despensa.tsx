@@ -1,3 +1,4 @@
+import { analyzeFoodImage } from '../services/gemini';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -68,6 +69,28 @@ function Despensa() {
     setQuantity("");
   }
 
+  async function handleImageSelected(file: File | null) {
+    if (!file) return;
+    try {
+      toast.info("Escaneando alimento con IA...");
+      const result = await analyzeFoodImage(file);
+
+      update([
+        ...items,
+        {
+          id: `${Date.now()}`,
+          name: `${result.name} (escaneado)`,
+          quantity: result.quantity,
+          expiresAt: addDays(result.daysLeft),
+        },
+      ]);
+      toast.success(`¡${result.name} detectado exitosamente!`);
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al procesar la imagen con Gemini");
+    }
+  }
+
   const sorted = sortByUrgency(items);
   const urgentCount = sorted.filter((i) => urgencyOf(i.expiresAt) === "urgente").length;
 
@@ -91,22 +114,7 @@ function Despensa() {
 
           {/* Opción para tomar o subir foto */}
           <div className="mb-6">
-            <PhotoUploader
-  onImageSelected={(file) => {
-    if (file) {
-      toast.success("¡Imagen analizada por Fresco!");
-      update([
-        ...items,
-        {
-          id: `${Date.now()}`,
-          name: "Tomates maduros (escaneado)",
-          quantity: "500 g",
-          expiresAt: addDays(2),
-        },
-      ]);
-    }
-  }}
-/>
+            <PhotoUploader onImageSelected={handleImageSelected} />
           </div>
 
           <form
