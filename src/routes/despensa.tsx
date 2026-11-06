@@ -2,6 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import { PhotoUploader } from "@/components/PhotoUploader";
 import { SiteFooter, SiteHeader, UrgencyBadge } from "@/components/site-chrome";
 import {
   addDays,
@@ -86,6 +87,11 @@ function Despensa() {
             <span className="hidden font-mono text-xs text-mist md:inline">
               {sorted.length} productos · {urgentCount} por vencer
             </span>
+          </div>
+
+          {/* Opción para tomar o subir foto */}
+          <div className="mb-6">
+            <PhotoUploader />
           </div>
 
           <form
@@ -186,7 +192,6 @@ function Despensa() {
           </div>
         </div>
       </section>
-
       <SiteFooter />
     </div>
   );
