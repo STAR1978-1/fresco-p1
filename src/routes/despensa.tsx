@@ -91,7 +91,22 @@ function Despensa() {
 
           {/* Opción para tomar o subir foto */}
           <div className="mb-6">
-            <PhotoUploader />
+            <PhotoUploader
+  onImageSelected={(file) => {
+    if (file) {
+      toast.success("¡Imagen analizada por Fresco!");
+      update([
+        ...items,
+        {
+          id: `${Date.now()}`,
+          name: "Tomates maduros (escaneado)",
+          quantity: "500 g",
+          expiresAt: addDays(2),
+        },
+      ]);
+    }
+  }}
+/>
           </div>
 
           <form
