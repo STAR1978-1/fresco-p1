@@ -1,9 +1,9 @@
-import { analyzeFoodImage } from '../services/gemini';
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 import { PhotoUploader } from "@/components/PhotoUploader";
+import { analyzeFoodImage } from "@/lib/food-image.functions";
 import { SiteFooter, SiteHeader, UrgencyBadge } from "@/components/site-chrome";
 import {
   addDays,
@@ -69,26 +69,18 @@ function Despensa() {
     setQuantity("");
   }
 
-  async function handleImageSelected(file: File | null) {
-    if (!file) return;
-    try {
-      toast.info("Escaneando alimento con IA...");
-      const result = await analyzeFoodImage(file);
+  async function analyzePhoto(imageDataUrl: string) {
+    const result = await analyzeFoodImage({ data: { imageDataUrl } });
+    return result.items;
+  }
 
-      update([
-        ...items,
-        {
-          id: `${Date.now()}`,
-          name: `${result.name} (escaneado)`,
-          quantity: result.quantity,
-          expiresAt: addDays(result.daysLeft),
-        },
-      ]);
-      toast.success(`¡${result.name} detectado exitosamente!`);
-    } catch (error) {
-      console.error(error);
-      toast.error("Error al procesar la imagen con Gemini");
-    }
+  function addDetectedFoods(foods: Array<Pick<PantryItem, "name" | "quantity" | "expiresAt">>) {
+    const now = Date.now();
+    update([
+      ...items,
+      ...foods.map((food, index) => ({ ...food, id: `${now}-${index}` })),
+    ]);
+    toast.success(`${foods.length} ${foods.length === 1 ? "alimento añadido" : "alimentos añadidos"}.`);
   }
 
   const sorted = sortByUrgency(items);
@@ -112,9 +104,8 @@ function Despensa() {
             </span>
           </div>
 
-          {/* Opción para tomar o subir foto */}
           <div className="mb-6">
-            <PhotoUploader onImageSelected={handleImageSelected} />
+            <PhotoUploader onAnalyze={analyzePhoto} onAddFoods={addDetectedFoods} />
           </div>
 
           <form
