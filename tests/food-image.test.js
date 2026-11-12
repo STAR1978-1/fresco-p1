@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 
 import {
   foodImageInputSchema,
@@ -11,6 +11,7 @@ describe("food photo upload validation", () => {
   test("accepts supported camera photos within the 15 MB limit", () => {
     expect(isSupportedFoodImage("image/jpeg", MAX_FOOD_IMAGE_BYTES)).toBe(true);
     expect(isSupportedFoodImage("image/heic", 1024)).toBe(true);
+    expect(isSupportedFoodImage("", 1024, "camera.heic")).toBe(true);
   });
 
   test("rejects unsupported formats and files over 15 MB", () => {

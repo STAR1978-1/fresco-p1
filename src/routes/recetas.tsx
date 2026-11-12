@@ -31,6 +31,8 @@ export const Route = createFileRoute("/recetas")({
         property: "og:description",
         content: "La IA arma recetas que rescatan primero lo que está por vencer.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Recetas,

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const MAX_FOOD_IMAGE_BYTES = 15 * 1024 * 1024;
-export const MAX_FOOD_IMAGE_DATA_URL_CHARS = 2_000_000;
+export const MAX_FOOD_IMAGE_DATA_URL_CHARS = 4_000_000;
 
 const acceptedImageTypes = new Set([
   "image/jpeg",
@@ -11,8 +11,13 @@ const acceptedImageTypes = new Set([
   "image/heif",
 ]);
 
-export function isSupportedFoodImage(type: string, size: number) {
-  return acceptedImageTypes.has(type.toLowerCase()) && size > 0 && size <= MAX_FOOD_IMAGE_BYTES;
+export function isSupportedFoodImage(type: string, size: number, filename = "") {
+  const normalizedType = type.toLowerCase();
+  const extension = filename.split(".").pop()?.toLowerCase();
+  const typeIsSupported = acceptedImageTypes.has(normalizedType);
+  const extensionIsSupported = extension === "heic" || extension === "heif";
+  return (typeIsSupported || (!normalizedType && extensionIsSupported)) &&
+    size > 0 && size <= MAX_FOOD_IMAGE_BYTES;
 }
 
 export const foodImageInputSchema = z.object({

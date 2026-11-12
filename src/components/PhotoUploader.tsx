@@ -83,7 +83,7 @@ export function PhotoUploader({ onAnalyze, onAddFoods }: PhotoUploaderProps) {
 
   function selectPhoto(file: File | undefined) {
     if (!file) return;
-    if (!isSupportedFoodImage(file.type, file.size)) {
+    if (!isSupportedFoodImage(file.type, file.size, file.name)) {
       toast.error(`Elige una foto JPG, PNG o HEIC de hasta ${Math.round(MAX_FOOD_IMAGE_BYTES / 1024 / 1024)} MB.`);
       return;
     }

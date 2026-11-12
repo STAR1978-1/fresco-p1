@@ -18,6 +18,8 @@ export const Route = createFileRoute("/planes")({
         content:
           "Desde gratis hasta despensa compartida para equipos, más recompensas por invitar personas.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Planes,

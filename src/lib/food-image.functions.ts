@@ -1,6 +1,6 @@
 import { createOpenAI } from "@ai-sdk/openai";
 import { APICallError, Output, streamText } from "ai";
-import { createServerFn, getRequest } from "@tanstack/react-start/server";
+import { createServerFn } from "@tanstack/react-start";
 
 import { createLovableAiGatewayRunIdFetch } from "@/lib/ai-gateway-run-id.server";
 import { foodImageInputSchema, foodImageResultSchema } from "@/lib/food-image.schema";
@@ -33,10 +33,7 @@ export const analyzeFoodImage = createServerFn({ method: "POST" })
     const apiKey = process.env["LOVABLE_API_KEY"];
     if (!apiKey) throw new Error("El análisis de fotos no está configurado.");
 
-    const request = getRequest();
-    const runIdFetch = createLovableAiGatewayRunIdFetch(
-      request.headers.get("X-Lovable-AIG-Run-ID") ?? undefined,
-    );
+    const runIdFetch = createLovableAiGatewayRunIdFetch();
     const provider = createOpenAI({
       baseURL: "https://ai.gateway.lovable.dev/v1",
       apiKey,
@@ -64,8 +61,6 @@ export const analyzeFoodImage = createServerFn({ method: "POST" })
           },
         ],
         output: Output.object({ schema: foodImageResultSchema }),
-        abortSignal: request.signal,
-        maxRetries: 0,
         providerOptions: {
           openai: {
             forceReasoning: true,

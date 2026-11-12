@@ -17,6 +17,8 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Recetas generadas por IA a partir de tu despensa, priorizando lo que vence.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
   component: Home,

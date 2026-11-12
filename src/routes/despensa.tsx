@@ -30,6 +30,8 @@ export const Route = createFileRoute("/despensa")({
         property: "og:description",
         content: "Registra tus alimentos y mira qué está por vencer primero.",
       },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: Despensa,
